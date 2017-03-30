@@ -27,6 +27,8 @@
 
 @property (nonatomic, strong) UITableView *tableView;
 @property (nonatomic, strong) NSArray *dataSource1;
+@property (nonatomic, strong) NSString *username;
+@property (nonatomic, strong) NSString *user;
 //@property (nonatomic, strong) NSArray *dataSource2;
 
 @end
@@ -141,8 +143,8 @@
     UILabel *numLabel = [MyUtiles createLabelWithFrame:CGRectMake((self.view.frame.size.width-220)/2, 200, 100, 30) font:[UIFont systemFontOfSize:16] textAlignment:NSTextAlignmentLeft color:[UIColor blackColor] text:@"手机号码:"] ;
     [self.view addSubview:numLabel];
     
-    NSString *user=[[NSUserDefaults standardUserDefaults] objectForKey:@"user"];
-    UILabel *numLabel1 = [MyUtiles createLabelWithFrame:CGRectMake((self.view.frame.size.width-220)/2+100, 200, 120, 30) font:[UIFont systemFontOfSize:15] textAlignment:NSTextAlignmentRight color:[UIColor blackColor] text:user];
+    _user=[[NSUserDefaults standardUserDefaults] objectForKey:@"user"];
+    UILabel *numLabel1 = [MyUtiles createLabelWithFrame:CGRectMake((self.view.frame.size.width-220)/2+100, 200, 120, 30) font:[UIFont systemFontOfSize:15] textAlignment:NSTextAlignmentRight color:[UIColor blackColor] text:_user];
     //numLabel1.text = [NSString stringWithFormat:@"%@",user];
     [self.view addSubview:numLabel1];
 
@@ -153,8 +155,8 @@
     UILabel *userNameLabel = [MyUtiles createLabelWithFrame:CGRectMake((self.view.frame.size.width-220)/2, 240, 100, 30) font:[UIFont systemFontOfSize:16] textAlignment:NSTextAlignmentLeft color:[UIColor blackColor] text:@"用户姓名:"];
     [self.view addSubview:userNameLabel];
     
-    NSString *username=[[NSUserDefaults standardUserDefaults] objectForKey:@"username"];
-    UILabel *userNameLabel1 = [MyUtiles createLabelWithFrame:CGRectMake((self.view.frame.size.width-220)/2+100, 240, 120, 30) font:[UIFont systemFontOfSize:15] textAlignment:NSTextAlignmentRight color:[UIColor blackColor] text:username];
+    _username=[[NSUserDefaults standardUserDefaults] objectForKey:@"username"];
+    UILabel *userNameLabel1 = [MyUtiles createLabelWithFrame:CGRectMake((self.view.frame.size.width-220)/2+100, 240, 120, 30) font:[UIFont systemFontOfSize:15] textAlignment:NSTextAlignmentRight color:[UIColor blackColor] text:_username];
    // userNameLabel1.text = [NSString stringWithFormat:@"%@",username];
     [self.view addSubview:userNameLabel1];
     
@@ -215,8 +217,9 @@
         mailController.mailComposeDelegate = self;
         [mailController.navigationBar setTintColor:[UIColor whiteColor]];
         [mailController.navigationBar setTitleTextAttributes:@{NSForegroundColorAttributeName:[UIColor whiteColor]}];
+        NSString *mailStr = [NSString stringWithFormat:@"意见反馈内容\n\n\n\n\n发件人: %@\n手机号: %@",_username,_user];
         [mailController setSubject:@"标题"];
-        [mailController setMessageBody:@"邮件内容" isHTML:NO];
+        [mailController setMessageBody:mailStr isHTML:NO];
         [mailController setToRecipients:@[@"liuchunyuy@163.com"]];
        // [mailController setCcRecipients:@[@"抄送人1", @"抄送人2",]];
        // [mailController setBccRecipients:@[@"密送人1", @"密送人2",]];

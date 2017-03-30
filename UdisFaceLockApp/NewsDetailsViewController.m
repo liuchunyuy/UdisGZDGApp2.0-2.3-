@@ -24,6 +24,7 @@
     self.view.backgroundColor = [UIColor colorWithRed:245/255.f green:245/255.f blue:245/255.f alpha:1.0];
     self.navigationController.navigationBar.barTintColor = [UIColor colorWithRed:30/255.f green:144/255.f blue:1.0 alpha:1.0];
     [self.navigationController.navigationBar setTitleTextAttributes:@{NSForegroundColorAttributeName:[UIColor whiteColor]}];
+    _url=[_url stringByReplacingOccurrencesOfString:@"http" withString:@"https"];
     //左按钮颜色
     [self.navigationController.navigationBar setTintColor:[UIColor whiteColor]];
     
@@ -43,7 +44,7 @@
         NSLog(@"获取新闻内容成功");
        UIWebView *webView = [[UIWebView alloc]initWithFrame:CGRectMake(0, 0, self.view.bounds.size.width, self.view.bounds.size.height)];
         NSString *result = [[NSString alloc] initWithData:responseObject encoding:NSUTF8StringEncoding];
-        NSLog(@"result is %@", result);
+       // NSLog(@"result is %@", result);
         [webView loadHTMLString:result baseURL:nil];
         [self.view addSubview:webView];
         [MBProgressHUD hideHUDForView:self.view animated:YES];

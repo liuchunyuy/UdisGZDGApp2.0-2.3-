@@ -14,9 +14,17 @@
 #import "MJRefresh.h"
 #import "MBProgressHUD.h"
 
-#define kNews @"https://v.juhe.cn/toutiao/index?type=&key=efbe1e1d1289b682bc343e1677b3660b"
-@interface NewsViewController ()<UITableViewDelegate,UITableViewDataSource>
+#import "LLSegmentedControl.h"
 
+#define kScreenWidth [UIScreen mainScreen].bounds.size.width
+#define kScreenHeight [UIScreen mainScreen].bounds.size.height
+
+#define kNews @"https://v.juhe.cn/toutiao/index?type=%@&key=efbe1e1d1289b682bc343e1677b3660b"
+@interface NewsViewController ()<UITableViewDelegate,UITableViewDataSource>
+@property(nonatomic,strong)LLSegmentedControl *segmentedControl;  // 头条、娱乐、体育等分类
+@property(nonatomic,strong)NSArray *dataArrayList;
+@property(nonatomic,strong)NSArray *dataArrayListType;
+@property(nonatomic)NSInteger selectIndex;
 @end
 
 @implementation NewsViewController
@@ -33,15 +41,51 @@
     self.extendedLayoutIncludesOpaqueBars = YES;// 延伸导航栏至（0.0)
     //[MBProgressHUD showHUDAddedTo:self.view animated:YES];
     
-    //[self creatTextView];
-    [self loadData];
+    [self createSegmentControl];
+    [self creatTextView];
+    [self loadData:0];
 
+}
+
+-(void)createSegmentControl{
+
+    //top(头条，默认),shehui(社会),guonei(国内),guoji(国际),yule(娱乐),tiyu(体育)junshi(军事),keji(科技),caijing(财经),shishang(时尚)
+    _dataArrayList = @[@"头条", @"社会", @"国内", @"国际",@"娱乐",@"体育",@"军事",@"科技",@"财经",@"时尚"];
+    _dataArrayListType = @[@"top", @"shehui", @"guonei", @"guoji",@"yule",@"tiyu",@"junshi",@"keji",@"caijing",@"shishang"];
+    self.segmentedControl = [[LLSegmentedControl alloc] initWithFrame:CGRectMake(0, 64, kScreenWidth, 30) titleArray:_dataArrayList];
+    _segmentedControl.backgroundColor = [UIColor colorWithRed:245/255.f green:245/255.f blue:245/255.f alpha:1.0];
+    _segmentedControl.segmentedControlLineStyle = LLSegmentedControlStyleUnderline;
+    _segmentedControl.lineWidthEqualToTextWidth = YES;
+    _segmentedControl.textColor = [UIColor darkTextColor];
+    _segmentedControl.selectedTextColor = [UIColor colorWithRed:30/255.f green:144/255.f blue:1.0 alpha:1.0];
+    _segmentedControl.font = [UIFont systemFontOfSize:13];
+    _segmentedControl.selectedFont = [UIFont boldSystemFontOfSize:15];
+    _segmentedControl.lineColor = [UIColor colorWithRed:51/255.f green:61/255.f blue:70/255.f alpha:1.0];
+    _segmentedControl.lineHeight = 2.f;
+    // segmentedControlTitleSpacingStyle 设置为 LLSegmentedControlTitleSpacingStyleSpacingFixed
+    // 则不需要设置 titleWidth 属性
+    _segmentedControl.titleSpacing = 30;
+    _segmentedControl.defaultSelectedIndex = 0;
+    // 分割线设置
+    _segmentedControl.showSplitLine = YES;
+    _segmentedControl.splitLineSize = CGSizeMake(1, 25);
+    
+    [self.view addSubview:_segmentedControl];
+    
+    [_segmentedControl segmentedControlSelectedWithBlock:^(LLSegmentedControl *segmentedControl, NSInteger selectedIndex) {
+        NSLog(@"selectedIndex : %zd", selectedIndex);
+        _selectIndex = selectedIndex;
+        //[MBProgressHUD showHUDAddedTo:self.view animated:YES];
+        [_dataArray removeAllObjects];
+        
+        [self loadData:_selectIndex];
+    }];
 }
 
 -(void)creatTextView{
 
     _dataArray = [[NSMutableArray alloc]init];
-    _tb = [[UITableView alloc]initWithFrame:CGRectMake(0, 64, self.view.bounds.size.width, self.view.bounds.size.height-64)];
+    _tb = [[UITableView alloc]initWithFrame:CGRectMake(0, 64+30, self.view.bounds.size.width, self.view.bounds.size.height-64-30)];
     //[_tb.mj_header beginRefreshing];
     _tb.delegate = self;
     _tb.dataSource = self;
@@ -64,22 +108,23 @@
     _tb.mj_header = [MJRefreshNormalHeader headerWithRefreshingBlock:^{
         // 进入刷新状态后会自动调用这个block
         [_dataArray removeAllObjects];
-        [self loadData];
+        [self loadData:_selectIndex];
     }];
     
-    _tb.mj_footer = [MJRefreshBackNormalFooter footerWithRefreshingBlock:^{
-        [_dataArray removeAllObjects];
-        [self loadData];
-    }];
+//    _tb.mj_footer = [MJRefreshBackNormalFooter footerWithRefreshingBlock:^{
+//        [_dataArray removeAllObjects];
+//        [self loadData:_selectIndex];
+//    }];
 
 }
 
--(void)loadData{
+-(void)loadData:(NSInteger )index{
 
     [MBProgressHUD showHUDAddedTo:self.view animated:YES];
-    [self creatTextView];
+    //[self creatTextView];
     AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
-    [manager GET:kNews parameters:nil progress:^(NSProgress * _Nonnull downloadProgress) {
+    NSString *urlStr = [NSString stringWithFormat:kNews,_dataArrayListType[index]];
+    [manager GET:urlStr parameters:nil progress:^(NSProgress * _Nonnull downloadProgress) {
         
     } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
         NSLog(@"获取新闻头条成功");

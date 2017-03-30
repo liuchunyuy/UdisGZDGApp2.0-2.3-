@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="10117" systemVersion="16C68" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="10117" systemVersion="16D32" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="10085"/>
+        <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
     </dependencies>
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
@@ -14,8 +15,8 @@
                 <rect key="frame" x="0.0" y="0.0" width="405" height="96.5"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
-                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="titleLabel" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="C6X-fc-103">
-                        <rect key="frame" x="98" y="8" width="199" height="58"/>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" misplaced="YES" text="titleLabel" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="C6X-fc-103">
+                        <rect key="frame" x="98" y="8" width="235" height="58"/>
                         <fontDescription key="fontDescription" type="system" pointSize="15"/>
                         <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                         <nil key="highlightedColor"/>
@@ -42,6 +43,9 @@
                         <nil key="highlightedColor"/>
                     </label>
                 </subviews>
+                <constraints>
+                    <constraint firstItem="C6X-fc-103" firstAttribute="width" secondItem="H2p-sc-9uM" secondAttribute="height" multiplier="199:96" id="Bbw-by-53R"/>
+                </constraints>
             </tableViewCellContentView>
             <connections>
                 <outlet property="author_name" destination="Hn6-hA-m6w" id="chp-pC-MEb"/>
@@ -50,7 +54,7 @@
                 <outlet property="thumbnail_pic_s" destination="RB0-y8-GIK" id="Ifl-PX-jQp"/>
                 <outlet property="titleLabel" destination="C6X-fc-103" id="Zag-h7-tuk"/>
             </connections>
-            <point key="canvasLocation" x="161.5" y="149.5"/>
+            <point key="canvasLocation" x="239.5" y="186.5"/>
         </tableViewCell>
     </objects>
 </document>

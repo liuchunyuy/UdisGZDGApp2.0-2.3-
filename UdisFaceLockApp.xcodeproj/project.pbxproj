@@ -33,6 +33,12 @@
 		745CBB8919952367001D103E /* UIViewController+MLTransition.m in Sources */ = {isa = PBXBuildFile; fileRef = 745CBB8419952367001D103E /* UIViewController+MLTransition.m */; };
 		745CBB8A19952367001D103E /* QHSliderViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 745CBB8719952367001D103E /* QHSliderViewController.m */; };
 		745CBB8D19952380001D103E /* SubViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 745CBB8C19952380001D103E /* SubViewController.m */; };
+		860A5BAB1E948E9C00C9CC25 /* libiconv.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 860A5BAA1E948E9C00C9CC25 /* libiconv.tbd */; };
+		8610FC1F1E9724BB006B32D3 /* EspressViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8610FC1E1E9724BB006B32D3 /* EspressViewController.m */; };
+		8610FC231E973514006B32D3 /* ExpressTimeTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 8610FC211E973514006B32D3 /* ExpressTimeTableViewCell.m */; };
+		8610FC241E973514006B32D3 /* ExpressTimeTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8610FC221E973514006B32D3 /* ExpressTimeTableViewCell.xib */; };
+		8610FC271E973837006B32D3 /* ExpressTimeModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 8610FC261E973837006B32D3 /* ExpressTimeModel.m */; };
+		8610FC301E975C63006B32D3 /* UILabel+LeftTopAlign.m in Sources */ = {isa = PBXBuildFile; fileRef = 8610FC2F1E975C63006B32D3 /* UILabel+LeftTopAlign.m */; };
 		86179AAC1D824B9800D32258 /* logo.png in Resources */ = {isa = PBXBuildFile; fileRef = 86179AAB1D824B9800D32258 /* logo.png */; };
 		862107EA1DF167DA00036CE0 /* HostServeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 862107E91DF167DA00036CE0 /* HostServeViewController.m */; };
 		862107F21DF1719C00036CE0 /* TelNumPic_1@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 862107EC1DF1719C00036CE0 /* TelNumPic_1@3x.png */; };
@@ -100,6 +106,11 @@
 		86344D221D7D5A3E00F38559 /* AsyncSocket.m in Sources */ = {isa = PBXBuildFile; fileRef = 86344D211D7D5A3E00F38559 /* AsyncSocket.m */; };
 		863598901E5C1C6B009F6713 /* MBProgressHUD.m in Sources */ = {isa = PBXBuildFile; fileRef = 8635988F1E5C1C6B009F6713 /* MBProgressHUD.m */; };
 		86364A171E446D980005C3BB /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 86364A161E446D980005C3BB /* Default-568h@2x.png */; };
+		863C1F851E8E17E500C24238 /* CityData.plist in Resources */ = {isa = PBXBuildFile; fileRef = 863C1F7B1E8E17E500C24238 /* CityData.plist */; };
+		863C1F861E8E17E500C24238 /* GYZChooseCityController.m in Sources */ = {isa = PBXBuildFile; fileRef = 863C1F7D1E8E17E500C24238 /* GYZChooseCityController.m */; };
+		863C1F871E8E17E500C24238 /* GYZCity.m in Sources */ = {isa = PBXBuildFile; fileRef = 863C1F801E8E17E500C24238 /* GYZCity.m */; };
+		863C1F881E8E17E500C24238 /* GYZCityGroupCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 863C1F821E8E17E500C24238 /* GYZCityGroupCell.m */; };
+		863C1F891E8E17E500C24238 /* GYZCityHeaderView.m in Sources */ = {isa = PBXBuildFile; fileRef = 863C1F841E8E17E500C24238 /* GYZCityHeaderView.m */; };
 		8644971B1DED14BD000649C7 /* SingletonSocket.m in Sources */ = {isa = PBXBuildFile; fileRef = 8644971A1DED14BD000649C7 /* SingletonSocket.m */; };
 		864497201DED73FB000649C7 /* ZLAlertView.m in Sources */ = {isa = PBXBuildFile; fileRef = 8644971F1DED73FB000649C7 /* ZLAlertView.m */; };
 		865C90931E1E26930052CAF4 /* SprottsTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 865C90911E1E26930052CAF4 /* SprottsTableViewCell.m */; };
@@ -316,6 +327,16 @@
 		745CBB8719952367001D103E /* QHSliderViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QHSliderViewController.m; sourceTree = "<group>"; };
 		745CBB8B19952380001D103E /* SubViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SubViewController.h; path = ../SubViewController.h; sourceTree = "<group>"; };
 		745CBB8C19952380001D103E /* SubViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SubViewController.m; path = ../SubViewController.m; sourceTree = "<group>"; };
+		860A5BAA1E948E9C00C9CC25 /* libiconv.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libiconv.tbd; path = usr/lib/libiconv.tbd; sourceTree = SDKROOT; };
+		8610FC1D1E9724BB006B32D3 /* EspressViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EspressViewController.h; sourceTree = "<group>"; };
+		8610FC1E1E9724BB006B32D3 /* EspressViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EspressViewController.m; sourceTree = "<group>"; };
+		8610FC201E973514006B32D3 /* ExpressTimeTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ExpressTimeTableViewCell.h; sourceTree = "<group>"; };
+		8610FC211E973514006B32D3 /* ExpressTimeTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ExpressTimeTableViewCell.m; sourceTree = "<group>"; };
+		8610FC221E973514006B32D3 /* ExpressTimeTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ExpressTimeTableViewCell.xib; sourceTree = "<group>"; };
+		8610FC251E973837006B32D3 /* ExpressTimeModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ExpressTimeModel.h; sourceTree = "<group>"; };
+		8610FC261E973837006B32D3 /* ExpressTimeModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ExpressTimeModel.m; sourceTree = "<group>"; };
+		8610FC2E1E975C63006B32D3 /* UILabel+LeftTopAlign.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UILabel+LeftTopAlign.h"; sourceTree = "<group>"; };
+		8610FC2F1E975C63006B32D3 /* UILabel+LeftTopAlign.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UILabel+LeftTopAlign.m"; sourceTree = "<group>"; };
 		86179AAB1D824B9800D32258 /* logo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = logo.png; path = ../logo.png; sourceTree = "<group>"; };
 		862107E81DF167DA00036CE0 /* HostServeViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = HostServeViewController.h; path = ../HostServeViewController.h; sourceTree = "<group>"; };
 		862107E91DF167DA00036CE0 /* HostServeViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = HostServeViewController.m; path = ../HostServeViewController.m; sourceTree = "<group>"; };
@@ -400,6 +421,16 @@
 		8635988E1E5C1C6B009F6713 /* MBProgressHUD.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MBProgressHUD.h; sourceTree = "<group>"; };
 		8635988F1E5C1C6B009F6713 /* MBProgressHUD.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MBProgressHUD.m; sourceTree = "<group>"; };
 		86364A161E446D980005C3BB /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
+		863C1F7B1E8E17E500C24238 /* CityData.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = CityData.plist; sourceTree = "<group>"; };
+		863C1F7C1E8E17E500C24238 /* GYZChooseCityController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GYZChooseCityController.h; sourceTree = "<group>"; };
+		863C1F7D1E8E17E500C24238 /* GYZChooseCityController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GYZChooseCityController.m; sourceTree = "<group>"; };
+		863C1F7E1E8E17E500C24238 /* GYZChooseCityDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GYZChooseCityDelegate.h; sourceTree = "<group>"; };
+		863C1F7F1E8E17E500C24238 /* GYZCity.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GYZCity.h; sourceTree = "<group>"; };
+		863C1F801E8E17E500C24238 /* GYZCity.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GYZCity.m; sourceTree = "<group>"; };
+		863C1F811E8E17E500C24238 /* GYZCityGroupCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GYZCityGroupCell.h; sourceTree = "<group>"; };
+		863C1F821E8E17E500C24238 /* GYZCityGroupCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GYZCityGroupCell.m; sourceTree = "<group>"; };
+		863C1F831E8E17E500C24238 /* GYZCityHeaderView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GYZCityHeaderView.h; sourceTree = "<group>"; };
+		863C1F841E8E17E500C24238 /* GYZCityHeaderView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GYZCityHeaderView.m; sourceTree = "<group>"; };
 		864497191DED14BD000649C7 /* SingletonSocket.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SingletonSocket.h; sourceTree = "<group>"; };
 		8644971A1DED14BD000649C7 /* SingletonSocket.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SingletonSocket.m; sourceTree = "<group>"; };
 		8644971C1DED73D9000649C7 /* ZLAlertView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZLAlertView.h; sourceTree = "<group>"; };
@@ -675,6 +706,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				860A5BAB1E948E9C00C9CC25 /* libiconv.tbd in Frameworks */,
 				86B0629A1E1CE3E9009EE629 /* AVFoundation.framework in Frameworks */,
 				86F2B2731DFA45DE0097DCCE /* CoreLocation.framework in Frameworks */,
 				86F4A5761D87A1D7004A5AF9 /* SystemConfiguration.framework in Frameworks */,
@@ -738,6 +770,7 @@
 		74273A281995C83B006096D1 /* Uitills */ = {
 			isa = PBXGroup;
 			children = (
+				863C1F7A1E8E17E500C24238 /* GYZChooseCity */,
 				863219CF1E1DF86200706B81 /* LLSegmentedControl */,
 				864497191DED14BD000649C7 /* SingletonSocket.h */,
 				8644971A1DED14BD000649C7 /* SingletonSocket.m */,
@@ -783,6 +816,7 @@
 		745CBB4319951B42001D103E /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				860A5BAA1E948E9C00C9CC25 /* libiconv.tbd */,
 				86B062991E1CE3E9009EE629 /* AVFoundation.framework */,
 				86F2B2721DFA45DE0097DCCE /* CoreLocation.framework */,
 				86F4A5751D87A1D7004A5AF9 /* SystemConfiguration.framework */,
@@ -1035,6 +1069,23 @@
 			path = LLSegmentedControl;
 			sourceTree = "<group>";
 		};
+		863C1F7A1E8E17E500C24238 /* GYZChooseCity */ = {
+			isa = PBXGroup;
+			children = (
+				863C1F7B1E8E17E500C24238 /* CityData.plist */,
+				863C1F7C1E8E17E500C24238 /* GYZChooseCityController.h */,
+				863C1F7D1E8E17E500C24238 /* GYZChooseCityController.m */,
+				863C1F7E1E8E17E500C24238 /* GYZChooseCityDelegate.h */,
+				863C1F7F1E8E17E500C24238 /* GYZCity.h */,
+				863C1F801E8E17E500C24238 /* GYZCity.m */,
+				863C1F811E8E17E500C24238 /* GYZCityGroupCell.h */,
+				863C1F821E8E17E500C24238 /* GYZCityGroupCell.m */,
+				863C1F831E8E17E500C24238 /* GYZCityHeaderView.h */,
+				863C1F841E8E17E500C24238 /* GYZCityHeaderView.m */,
+			);
+			path = GYZChooseCity;
+			sourceTree = "<group>";
+		};
 		866DE1E31D597E380092E36D /* NewMessageController */ = {
 			isa = PBXGroup;
 			children = (
@@ -1181,6 +1232,10 @@
 			children = (
 				862107E81DF167DA00036CE0 /* HostServeViewController.h */,
 				862107E91DF167DA00036CE0 /* HostServeViewController.m */,
+				8610FC1D1E9724BB006B32D3 /* EspressViewController.h */,
+				8610FC1E1E9724BB006B32D3 /* EspressViewController.m */,
+				8610FC2E1E975C63006B32D3 /* UILabel+LeftTopAlign.h */,
+				8610FC2F1E975C63006B32D3 /* UILabel+LeftTopAlign.m */,
 				86EA5B431DFF8CC400C38547 /* SportsViewController.h */,
 				86EA5B441DFF8CC400C38547 /* SportsViewController.m */,
 				86B255031E0787FC00A2FF7A /* SportsTipsViewController.h */,
@@ -1442,6 +1497,11 @@
 				8622A8A31E271BB2009F8386 /* SheShouBangTableViewCell.xib */,
 				8622A8A91E271E67009F8386 /* SheShouBangModel.h */,
 				8622A8AA1E271E67009F8386 /* SheShouBangModel.m */,
+				8610FC201E973514006B32D3 /* ExpressTimeTableViewCell.h */,
+				8610FC211E973514006B32D3 /* ExpressTimeTableViewCell.m */,
+				8610FC221E973514006B32D3 /* ExpressTimeTableViewCell.xib */,
+				8610FC251E973837006B32D3 /* ExpressTimeModel.h */,
+				8610FC261E973837006B32D3 /* ExpressTimeModel.m */,
 			);
 			path = ModelAndCell;
 			sourceTree = "<group>";
@@ -1684,6 +1744,7 @@
 				862181C61D8E2B9D00ACB347 /* 二维码@2x.png in Resources */,
 				862181D61D8E5B2A00ACB347 /* 最新1.png in Resources */,
 				862107F61DF1719C00036CE0 /* TelNumPic_5@3x.png in Resources */,
+				863C1F851E8E17E500C24238 /* CityData.plist in Resources */,
 				862181CA1D8E2B9D00ACB347 /* 其他2@2x.png in Resources */,
 				745CBB4F19951B42001D103E /* InfoPlist.strings in Resources */,
 				862107F41DF1719C00036CE0 /* TelNumPic_3@3x.png in Resources */,
@@ -1695,6 +1756,7 @@
 				869D55F11C954DC900AA2F2C /* status_nonconnect.png in Resources */,
 				862181E71D90C6F000ACB347 /* arrow_right@2x.png in Resources */,
 				863225421E4AE6840082AE10 /* 公交换乘点击.png in Resources */,
+				8610FC241E973514006B32D3 /* ExpressTimeTableViewCell.xib in Resources */,
 				863225411E4AE6840082AE10 /* 公交换乘@2x.png in Resources */,
 				86179AAC1D824B9800D32258 /* logo.png in Resources */,
 				86EA5B421DFE50C600C38547 /* city_item_location@2x.png in Resources */,
@@ -1781,6 +1843,7 @@
 				745CBB8819952367001D103E /* MLTransitionAnimation.m in Sources */,
 				86F4A5B41D87A856004A5AF9 /* JSONModelError.m in Sources */,
 				868613BA1E0B654100897664 /* LongDistanceBusTableViewCell.m in Sources */,
+				8610FC301E975C63006B32D3 /* UILabel+LeftTopAlign.m in Sources */,
 				8672A3E61D7FBCDE00FA1A41 /* SDWebImagePrefetcher.m in Sources */,
 				86F4A56F1D869FE5004A5AF9 /* UIProgressView+AFNetworking.m in Sources */,
 				862181E11D8FBA0500ACB347 /* NewMessageDetailsViewController.m in Sources */,
@@ -1789,6 +1852,7 @@
 				867FAF851D8650B400936D19 /* NewMessageModel.m in Sources */,
 				86F4A56C1D869FE5004A5AF9 /* UIActivityIndicatorView+AFNetworking.m in Sources */,
 				86F4A5B81D87A856004A5AF9 /* JSONModel+networking.m in Sources */,
+				863C1F871E8E17E500C24238 /* GYZCity.m in Sources */,
 				8672A3ED1D7FBCDE00FA1A41 /* UIView+WebCacheOperation.m in Sources */,
 				86B255051E0787FC00A2FF7A /* SportsTipsViewController.m in Sources */,
 				86F4A5B31D87A856004A5AF9 /* JSONModelClassProperty.m in Sources */,
@@ -1823,6 +1887,7 @@
 				8644971B1DED14BD000649C7 /* SingletonSocket.m in Sources */,
 				8672A3E81D7FBCDE00FA1A41 /* UIImage+GIF.m in Sources */,
 				86EA5B451DFF8CC400C38547 /* SportsViewController.m in Sources */,
+				863C1F861E8E17E500C24238 /* GYZChooseCityController.m in Sources */,
 				866DE21A1D5989550092E36D /* NewMessageController.m in Sources */,
 				8672A3E31D7FBCDE00FA1A41 /* SDWebImageDownloader.m in Sources */,
 				862108071DF5085700036CE0 /* FastFoodViewController.m in Sources */,
@@ -1853,10 +1918,12 @@
 				86F4A5B11D87A856004A5AF9 /* JSONModel.m in Sources */,
 				8672A3E21D7FBCDE00FA1A41 /* SDWebImageDecoder.m in Sources */,
 				86F4A5BA1D87A856004A5AF9 /* JSONValueTransformer.m in Sources */,
+				8610FC271E973837006B32D3 /* ExpressTimeModel.m in Sources */,
 				86F4A5711D869FE5004A5AF9 /* UIWebView+AFNetworking.m in Sources */,
 				86F4A56D1D869FE5004A5AF9 /* UIButton+AFNetworking.m in Sources */,
 				868613B31E0A4A8400897664 /* WechatDetailViewController.m in Sources */,
 				86B255131E08D6D200A2FF7A /* NewsDetailsViewController.m in Sources */,
+				863C1F891E8E17E500C24238 /* GYZCityHeaderView.m in Sources */,
 				86B2550C1E08C8C900A2FF7A /* NewsTableViewCell.m in Sources */,
 				8672A3E51D7FBCDE00FA1A41 /* SDWebImageManager.m in Sources */,
 				868613A81E0A45C000897664 /* WeChatViewController.m in Sources */,
@@ -1866,7 +1933,9 @@
 				8672A3BB1D7FBA9700FA1A41 /* SZKRoundScrollView.m in Sources */,
 				868613B01E0A471200897664 /* WeChatModel.m in Sources */,
 				745CBB8D19952380001D103E /* SubViewController.m in Sources */,
+				863C1F881E8E17E500C24238 /* GYZCityGroupCell.m in Sources */,
 				8672A3E41D7FBCDE00FA1A41 /* SDWebImageDownloaderOperation.m in Sources */,
+				8610FC1F1E9724BB006B32D3 /* EspressViewController.m in Sources */,
 				8672A3F31D7FCCEC00FA1A41 /* OpenLockViewController.m in Sources */,
 				8621080A1DF5086900036CE0 /* OtherViewController.m in Sources */,
 				8670E0E81D4F39BB0043BBCB /* CNPPopupController.m in Sources */,
@@ -1900,6 +1969,7 @@
 				862107EA1DF167DA00036CE0 /* HostServeViewController.m in Sources */,
 				86F4A54F1D869FDE004A5AF9 /* AFNetworkReachabilityManager.m in Sources */,
 				866DE25E1D5B65B20092E36D /* NSDate+CalculateTime.m in Sources */,
+				8610FC231E973514006B32D3 /* ExpressTimeTableViewCell.m in Sources */,
 				745CBB8A19952367001D103E /* QHSliderViewController.m in Sources */,
 				86D9EF971D486312007E09C8 /* Utils.m in Sources */,
 				868613B61E0B61B600897664 /* LongDistanceBusViewController.m in Sources */,

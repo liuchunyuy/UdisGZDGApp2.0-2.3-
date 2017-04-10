@@ -11,7 +11,7 @@
 #import "QRCodeViewController.h"
 #import "NewMessageController.h"
 #import "HostServeViewController.h"
-#import "SportsViewController.h"
+//#import "SportsViewController.h"
 #import "NewsViewController.h"
 #import "WeChatViewController.h"
 #import "LongDistanceBusViewController.h"
@@ -19,6 +19,9 @@
 #import "IdiomDictionaryViewController.h"
 #import "TVShowViewController.h"
 #import "SportsNewsViewController.h"
+#import "EspressViewController.h"   //快递
+
+#import "GYZChooseCityController.h"   //城市选择
 #import <CoreLocation/CoreLocation.h>
 
 
@@ -34,9 +37,10 @@
 
 NSString *totalmessage=@"";
 
-@interface MainAppViewController ()<UIScrollViewDelegate,UIGestureRecognizerDelegate,CLLocationManagerDelegate,UIAlertViewDelegate>{
+@interface MainAppViewController ()<UIScrollViewDelegate,UIGestureRecognizerDelegate,CLLocationManagerDelegate,UIAlertViewDelegate,GYZChooseCityDelegate>{
     NSString * currentCity; //当前城市
     NSUInteger number;
+    UIButton *cityBtn;
 }
 @property (strong,nonatomic) CLLocationManager * locationManager;
 @property(nonatomic,copy)SZKRoundScrollView *roundScrollView;
@@ -98,7 +102,7 @@ NSString *totalmessage=@"";
     
     //self.navigationController.delegate = self; //实现nav代理隐藏本页面的nav
     [self creatAlertView];  //公告提示框
-    //[self weather];
+  //  [self weather];
     [self creatBtnView];
     [self netImageArr];
     
@@ -313,10 +317,18 @@ NSString *totalmessage=@"";
         CGFloat n = i % 3 * (VIEW_WEIGHT/3);
         CGFloat m =VIEW_WEIGHT/3-20 + i / 3 * (VIEW_WEIGHT/3);
         UIButton * bun = [UIButton buttonWithType:UIButtonTypeCustom];
-        NSArray *nameArr = @[@"运动健身",@"便民热线",@"新闻头条",@"微信精选",@"长途汽车",@"公交换乘",@"成语词典",@"体育资讯",@"电视节目"];
+        NSArray *nameArr = @[@"快递查询",@"便民热线",@"新闻头条",@"微信精选",@"长途汽车",@"公交换乘",@"成语词典",@"体育资讯",@"电视节目"];
+        //https://www.wenlong.org/kuaidi/   快递
+        if (i >= 2) {
+            [bun setTitleColor:[UIColor grayColor] forState:UIControlStateNormal];
+            [bun setTitleColor:[UIColor grayColor] forState:UIControlStateHighlighted];
+        }else{
+            [bun setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+            [bun setTitleColor:[UIColor grayColor] forState:UIControlStateHighlighted];
+        }
         bun.frame = CGRectMake(n, m+60, VIEW_WEIGHT/3, VIEW_WEIGHT/3);
-        [bun setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
-        [bun setTitleColor:[UIColor grayColor] forState:UIControlStateHighlighted];
+       // [bun setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+       // [bun setTitleColor:[UIColor grayColor] forState:UIControlStateHighlighted];
         [bun setTitle:nameArr[i] forState:UIControlStateNormal];
         bun.titleLabel.font = [UIFont systemFontOfSize:16];
         bun.layer.borderColor = [[UIColor colorWithRed:176.0/255.0 green:224.0/255.0 blue:230.0/255.0 alpha:1.0] CGColor];
@@ -356,17 +368,17 @@ NSString *totalmessage=@"";
         [self.navigationController pushViewController:hostServeVc animated:YES];
         self.hidesBottomBarWhenPushed = NO;
     }else if (num == 0){
-        //进入运动健身
+        //进入快递
         //[self showAlert:@"功能建设中..."];
         //return;
         self.hidesBottomBarWhenPushed = YES;
-        SportsViewController *sportsVc = [[SportsViewController alloc]init];
+        EspressViewController *sportsVc = [[EspressViewController alloc]init];
         [self.navigationController pushViewController:sportsVc animated:YES];
         self.hidesBottomBarWhenPushed = NO;
     }else if(num == 2){
         //进入新闻头条
-       // [self showAlert:@"功能建设中..."];
-       // return;
+        [self showAlert:@"功能建设中..."];
+        return;
         self.hidesBottomBarWhenPushed = YES;
         NewsViewController *newsVc = [[NewsViewController alloc]init];
         [self.navigationController pushViewController:newsVc animated:YES];
@@ -381,40 +393,40 @@ NSString *totalmessage=@"";
         self.hidesBottomBarWhenPushed = NO;
     }else if(num == 4){
         //进入长途汽车
-        //[self showAlert:@"功能建设中..."];
-        //return;
+        [self showAlert:@"功能建设中..."];
+        return;
         self.hidesBottomBarWhenPushed = YES;
         LongDistanceBusViewController *longDistanceBusVc = [[LongDistanceBusViewController alloc]init];
         [self.navigationController pushViewController:longDistanceBusVc animated:YES];
         self.hidesBottomBarWhenPushed = NO;
     }else if(num == 5){
         //进入公交换乘
-        //[self showAlert:@"功能建设中..."];
-        //return;
+        [self showAlert:@"功能建设中..."];
+        return;
         self.hidesBottomBarWhenPushed = YES;
         PublicTransportViewController *publicTransportVc = [[PublicTransportViewController alloc]init];
         [self.navigationController pushViewController:publicTransportVc animated:YES];
         self.hidesBottomBarWhenPushed = NO;
     }else if(num == 6){
         //进入成语字典
-        //[self showAlert:@"功能建设中..."];
-        //return;
+        [self showAlert:@"功能建设中..."];
+        return;
         self.hidesBottomBarWhenPushed = YES;
         IdiomDictionaryViewController *idiomDictionaryVc = [[IdiomDictionaryViewController alloc]init];
         [self.navigationController pushViewController:idiomDictionaryVc animated:YES];
         self.hidesBottomBarWhenPushed = NO;
     }else if(num == 7){
         //进入体育资讯
-       // [self showAlert:@"功能建设中..."];
-       // return;
+        [self showAlert:@"功能建设中..."];
+        return;
         self.hidesBottomBarWhenPushed = YES;
         SportsNewsViewController *sportsNewsVc = [[SportsNewsViewController alloc]init];
         [self.navigationController pushViewController:sportsNewsVc animated:YES];
         self.hidesBottomBarWhenPushed = NO;
     }else{
         //进入电视节目
-       // [self showAlert:@"功能建设中..."];
-       // return;
+        [self showAlert:@"功能建设中..."];
+        return;
         self.hidesBottomBarWhenPushed = YES;
         TVShowViewController *TVShowVc = [[TVShowViewController alloc]init];
         [self.navigationController pushViewController:TVShowVc animated:YES];
@@ -477,61 +489,8 @@ NSString *totalmessage=@"";
             NSLog(@"%@",currentCity); //这就是当前的城市
             NSLog(@"%@",placeMark.name);//具体地址:  xx市xx区xx街道
     
-            NSString *url = [NSString stringWithFormat:@"https://op.juhe.cn/onebox/weather/query?cityname=%@&key=9e8ac982741b95fd3baf222cfd0328c8",currentCity];
-            NSString *str = [url stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
-            NSURL *url1 = [NSURL URLWithString:str];
-            NSURLRequest *urlR = [NSURLRequest requestWithURL:url1];
-            NSURLSession *session = [NSURLSession sharedSession];
-            
-            NSURLSessionDataTask *dataTask = [session dataTaskWithRequest:urlR completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
-                NSString *rec = [[NSString alloc]initWithData:data encoding:NSUTF8StringEncoding];
-                NSDictionary *dic=[NSJSONSerialization JSONObjectWithData:[rec dataUsingEncoding:NSUTF8StringEncoding] options:NSJSONReadingAllowFragments error:nil];
-               // NSLog(@"weather dic is %@", dic);
-                NSDictionary *resultDic = [dic objectForKey:@"result"];
-               // NSLog(@"resultArr is %@",resultDic);
-                NSDictionary *dataDic = [resultDic objectForKey:@"data"];
-               // NSLog(@"dataArr is %@",dataDic);
-                NSArray *weatherArr = [dataDic objectForKey:@"weather"];
-               // NSLog(@"weather is %@", weatherDic);
-                //回到主线程刷新页面
-                dispatch_async(dispatch_get_main_queue(), ^{
-                    //NSLog(@"weatherDic is %@");
-                    // NSLog(@"weatherArr[0] is %@",weatherArr[0]);
-                    NSLog(@"地点:%@",currentCity);
-                    NSString *date = [weatherArr[0] objectForKey:@"date"]; //日期
-                    NSLog(@"日期:%@",date);
-                    NSDictionary *info = [weatherArr[0] objectForKey:@"info"];
-                    NSArray *day = [info objectForKey:@"day"];
-                    NSArray *night = [info objectForKey:@"night"];
-                    NSLog(@"温度%@-%@",night[2],day[2]);
-                    NSLog(@"天气:%@",day[1]);
-                    NSLog(@"风向风力:%@\%@",day[3],day[4]);
-                    NSString *week = [weatherArr[0] objectForKey:@"week"];
-                    NSLog(@"星期: %@",week);
-                    
-                    UIView *navView = [[UIView alloc]initWithFrame:CGRectMake(0, 0, VIEW_WEIGHT, 64)];
-                    self.navigationItem.titleView = navView;
-                    
-                    // 城市
-                    UIButton *cityBtn = [MyUtiles createBtnWithFrame:CGRectMake(0, 22, 80, 20) title:[NSString stringWithFormat:@"%@", currentCity] normalBgImg:nil highlightedBgImg:nil target:self action:@selector(location)];
-                    [cityBtn setImage:[UIImage imageNamed:@"city_item_location@2x"] forState:UIControlStateNormal];
-                    
-                    //日期
-                    UILabel *dateLabel = [MyUtiles createLabelWithFrame:CGRectMake((VIEW_WEIGHT-110)/2, 22, 110, 20) font:[UIFont systemFontOfSize:13] textAlignment:NSTextAlignmentCenter color:[UIColor blackColor] text:[NSString stringWithFormat:@"%@   %@",date,day[1]]];
-
-                    //温度
-                    UILabel *temperatureLabel = [MyUtiles createLabelWithFrame:CGRectMake(VIEW_WEIGHT-80, 32, 50, 20) font:[UIFont systemFontOfSize:12] textAlignment:NSTextAlignmentCenter color:[UIColor blackColor] text:[NSString stringWithFormat:@"%@-%@ ℃",night[2],day[2]]];
-                    
-                    //风力风向
-                    UILabel *windLabel = [MyUtiles createLabelWithFrame:CGRectMake(VIEW_WEIGHT-80, 12, 70, 20) font:[UIFont systemFontOfSize:12] textAlignment:NSTextAlignmentCenter color:[UIColor blackColor] text:[NSString stringWithFormat:@"%@\%@",day[3],day[4]]];
-                    
-                    [navView addSubview:windLabel];
-                    [navView addSubview:temperatureLabel];
-                    [navView addSubview:cityBtn];
-                    [navView addSubview:dateLabel];
-                });
-            }];
-            [dataTask resume];
+            [self getWeatherData];
+           
         }
         else if (error == nil && placemarks.count == 0) {
             NSLog(@"No location and error return");
@@ -540,6 +499,72 @@ NSString *totalmessage=@"";
             NSLog(@"location error: %@ ",error);
         }
     }];        
+}
+
+-(void)getWeatherData{
+
+    NSString *url = [NSString stringWithFormat:@"https://v.juhe.cn/weather/index?format=2&cityname=%@&key=4d6eeb87175561802e67bc8db4308c91",currentCity];
+    // NSString *url = [NSString stringWithFormat:@"https://api.seniverse.com/v3/weather/now.json?key=xkuzbo0m3clihjag&location=%@&language=zh-Hans&unit=c",currentCity];
+    // NSString *url = @"https://api.seniverse.com/v3/weather/now.json?key=xkuzbo0m3clihjag&location=beijing&language=zh-Hans&unit=c";
+    NSString *str = [url stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+    NSURL *url1 = [NSURL URLWithString:str];
+    NSURLRequest *urlR = [NSURLRequest requestWithURL:url1];
+    NSURLSession *session = [NSURLSession sharedSession];
+    
+    NSURLSessionDataTask *dataTask = [session dataTaskWithRequest:urlR completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
+        NSString *rec = [[NSString alloc]initWithData:data encoding:NSUTF8StringEncoding];
+        NSDictionary *dic=[NSJSONSerialization JSONObjectWithData:[rec dataUsingEncoding:NSUTF8StringEncoding] options:NSJSONReadingAllowFragments error:nil];
+         NSLog(@"weather dic is %@", dic);
+        
+        if(![[dic objectForKey:@"reason"] isEqualToString: @"successed!"]){
+            NSLog(@"code %@ reason %@",[dic objectForKey:@"error_code"],[dic objectForKey:@"reason"]);
+            return ;
+        }
+
+        NSDictionary *resultDic = [dic objectForKey:@"result"];
+         NSLog(@"resultDic is %@",resultDic);
+
+        NSDictionary *dataDic = [resultDic objectForKey:@"today"];
+        // NSLog(@"dataArr is %@",dataDic);
+        //NSArray *weatherArr = [dataDic objectForKey:@"weather"];
+        // NSLog(@"weather is %@", weatherDic);
+        //回到主线程刷新页面
+        dispatch_async(dispatch_get_main_queue(), ^{
+            //NSLog(@"weatherDic is %@");
+            // NSLog(@"weatherArr[0] is %@",weatherArr[0]);
+            NSLog(@"地点:%@",currentCity);
+            NSString *date = [dataDic objectForKey:@"date_y"]; //日期
+            NSString *temperature = [dataDic objectForKey:@"temperature"]; // 温度
+            NSString *weather = [dataDic objectForKey:@"weather"];// 天气
+            NSString *wind = [dataDic objectForKey:@"wind"];     // 风力
+            NSString *week = [dataDic objectForKey:@"week"];     //星期
+            NSString *dressing_advice = [dataDic objectForKey:@"dressing_advice"];// 建议穿着
+            
+            UIView *navView = [[UIView alloc]initWithFrame:CGRectMake(0, 0, VIEW_WEIGHT, 64)];
+            self.navigationItem.titleView = navView;
+            
+            // 城市
+            cityBtn = [MyUtiles createBtnWithFrame:CGRectMake(0, 22, 80, 20) title:[NSString stringWithFormat:@"%@", currentCity] normalBgImg:nil highlightedBgImg:nil target:self action:@selector(location)];
+            [cityBtn setTitleColor:[UIColor orangeColor] forState:UIControlStateNormal];
+            [cityBtn setTitleColor:[UIColor grayColor] forState:UIControlStateHighlighted];
+            [cityBtn setImage:[UIImage imageNamed:@"city_item_location@2x"] forState:UIControlStateNormal];
+            
+            //天气
+            UILabel *dateLabel = [MyUtiles createLabelWithFrame:CGRectMake((VIEW_WEIGHT-110)/2, 22, 110, 20) font:[UIFont systemFontOfSize:13] textAlignment:NSTextAlignmentCenter color:[UIColor blackColor] text:[NSString stringWithFormat:@"%@",weather]];
+            
+            //温度
+            UILabel *temperatureLabel = [MyUtiles createLabelWithFrame:CGRectMake(VIEW_WEIGHT-90, 32, 70, 20) font:[UIFont systemFontOfSize:12] textAlignment:NSTextAlignmentCenter color:[UIColor blackColor] text:[NSString stringWithFormat:@"%@",temperature]];
+            
+            //风力风向
+            UILabel *windLabel = [MyUtiles createLabelWithFrame:CGRectMake(VIEW_WEIGHT-90, 12, 70, 20) font:[UIFont systemFontOfSize:12] textAlignment:NSTextAlignmentCenter color:[UIColor blackColor] text:[NSString stringWithFormat:@"%@",wind]];
+            
+            [navView addSubview:windLabel];
+            [navView addSubview:temperatureLabel];
+            [navView addSubview:cityBtn];
+            [navView addSubview:dateLabel];
+        });
+    }];
+    [dataTask resume];
 }
 
 // 定位服务状态改变时调用/
@@ -581,6 +606,33 @@ NSString *totalmessage=@"";
 -(void)location{
 
     NSLog(@"定位未实现");
+    GYZChooseCityController *cityPickerVC = [[GYZChooseCityController alloc] init];
+    [cityPickerVC setDelegate:self];
+    
+    [self presentViewController:[[UINavigationController alloc] initWithRootViewController:cityPickerVC] animated:YES completion:^{
+        
+    }];
+    
+}
+
+#pragma mark - GYZCityPickerDelegate
+- (void) cityPickerController:(GYZChooseCityController *)chooseCityController didSelectCity:(GYZCity *)city
+{
+    [cityBtn setTitle:city.cityName forState:UIControlStateNormal];
+    NSLog(@"city.cityName is %@",city.cityName);
+    currentCity = city.cityName;
+    [self getWeatherData];
+    [chooseCityController dismissViewControllerAnimated:YES completion:^{
+        
+    }];
+    
+}
+
+- (void) cityPickerControllerDidCancel:(GYZChooseCityController *)chooseCityController
+{
+    [chooseCityController dismissViewControllerAnimated:YES completion:^{
+        
+    }];
 }
 
 #pragma end Delegate

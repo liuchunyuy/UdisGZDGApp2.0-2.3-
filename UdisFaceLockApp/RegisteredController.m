@@ -10,6 +10,8 @@
 #import "PersonInfoController.h"
 #import "HostServeViewController.h"
 #import "MyUtiles.h"
+
+#include "iconv.h"
 //#import "SingletonSocket.h"
 //@interface RegisteredController ()<EMChatManagerDelegate>
 //@end
@@ -25,11 +27,22 @@
 @property(nonatomic,strong)NSString *totalmessage;
 @property(nonatomic)BOOL isLogined;
 
+@property(nonatomic,strong)NSMutableData *data;
+
 @end
 
 //@implementation RegisteredController
 @implementation RegisteredController {
     MBProgressHUD *HUD;
+}
+
+//懒加载一个data，用于保存服务器返回的数据
+
+- (NSMutableData *)data {
+    if (_data == nil) {
+        _data = [NSMutableData new];
+    }
+    return _data;
 }
 
 - (void)viewDidLoad {
@@ -176,7 +189,7 @@
 
 - (void)LoginBtn:(id)sender{
      NSLog(@"click login button");
-    
+    self.data = [NSMutableData data];
     NSString *str = _nameTextField.text;
     if (str.length > 0) {
         
@@ -208,27 +221,23 @@
 }
 
 - (BOOL) ConnectToSever{
-    if(clientSocket==nil)
-    {
+    if(clientSocket==nil){
         clientSocket=[[AsyncSocket alloc] initWithDelegate:self];
         NSError *error=nil;
         NSString *address = [clientSocket getProperIPWithAddress:_SERVER_ADDRESS port:_SERVER_PORT];
-        if(![clientSocket connectToHost:address onPort:_SERVER_PORT withTimeout:3 error:&error])
-        {
+        if(![clientSocket connectToHost:address onPort:_SERVER_PORT withTimeout:3 error:&error]){
+            
             clientSocket = nil;
             return FALSE;
             [MBProgressHUD hideHUDForView:self.view animated:YES];
             [Utils showAlert:@"连接服务器失败，请检查设置!!"];
-        }
-        else
-        {
+        }else{
             NSLog(@"Connect sucess!");
             //[Utils showAlert:@"连接服务器成功!!"];
             _totalmessage = @"";
             return TRUE;
         }
-        
-    }else    {
+    }else{
         //_Status.text=@"已连接!";
         NSLog(@"Connected!");
         _totalmessage = @"";
@@ -263,7 +272,7 @@
     NSString * inputMsgStr = [[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding];
     NSString * content = [[_MESSAGE_START stringByAppendingString:inputMsgStr] stringByAppendingString:_MESSAGE_END];
     NSLog(@"send action is: %@",content);
-    NSData *sendata = [content dataUsingEncoding:NSISOLatin1StringEncoding];
+    NSData *sendata = [content dataUsingEncoding:NSUTF8StringEncoding];  //NSISOLatin1StringEncoding
     [clientSocket writeData:sendata withTimeout:20 tag:0];
     self.isLogined = NO;
     [self performSelector:@selector(checkIsLogined) withObject:nil afterDelay:20];
@@ -279,16 +288,18 @@
 //        // blockdic = dic;
 //        NSLog(@"dic is %@",dic);
     if (data) {
-        NSString *recvMessage = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
+        
+        NSString *recvMessage = [[NSString alloc]initWithData:data encoding:NSUTF8StringEncoding];
         NSLog(@"recvMessage is: %@",recvMessage);
+        NSLog(@"recvMessage length is %lu",(unsigned long)recvMessage.length);
         if(recvMessage){
-            _totalmessage=[_totalmessage stringByAppendingString:recvMessage];
-            NSLog(@"totalmessage is: %@",_totalmessage);
-            NSRange rangeStart = [_totalmessage rangeOfString:_MESSAGE_START];
+            //_totalmessage=[_totalmessage stringByAppendingString:recvMessage];
+           // NSLog(@"totalmessage is: %@",_totalmessage);
+            NSRange rangeStart = [recvMessage rangeOfString:_MESSAGE_START];
             int locationStrat = rangeStart.location;
             int leightStart = rangeStart.length;
             NSLog(@"start is %d,%d",locationStrat,leightStart);
-            NSRange rangeEnd = [_totalmessage rangeOfString:_MESSAGE_END];
+            NSRange rangeEnd = [recvMessage rangeOfString:_MESSAGE_END];
             int locationEnd = rangeEnd.location;
             int leightEnd = rangeEnd.length;
             NSLog(@"end is %d,%d",locationEnd,leightEnd);
@@ -296,11 +307,11 @@
                 //取消登陆等待框
                 [MBProgressHUD hideHUDForView:self.view animated:YES];
                 //截取掉前后 udis 标志
-                NSString *needmessage=[[_totalmessage substringToIndex:locationEnd] substringFromIndex:leightStart];
-                NSLog(@"--------needmessage is: %@",needmessage);
+                NSString *needmessage=[[recvMessage substringToIndex:locationEnd] substringFromIndex:leightStart];
+              //  NSLog(@"--------needmessage is: %@",needmessage);
                 NSDictionary *dic=[NSJSONSerialization JSONObjectWithData:[needmessage dataUsingEncoding:NSUTF8StringEncoding] options:NSJSONReadingAllowFragments error:nil];
                 // totalmessage=@"";
-                NSLog(@"dic=%@",dic);
+               // NSLog(@"dic=%@",dic);
                 if([dic objectForKey:@"command"]){// Node containing the command
                     NSString *command=[dic objectForKey:@"command"];
                     NSLog(@"command is: %@",command);
@@ -314,14 +325,13 @@
                             NSMutableArray *arr = [NSMutableArray arrayWithArray:messages];
                             // NSLog(@"messages is %@", messages);
                             if (messages.count == 0) {
-                                //return;
+                                NSLog(@"暂无消息");
                             }else{
                                 NSDictionary *messageDic = messages[0];
                                 NSString *message = [messageDic objectForKey:@"message"];
                                 // NSLog(@"message is %@", message);
                                 [[NSUserDefaults standardUserDefaults] setObject:message forKey:@"message"];
                             }
-                            
                             if ([code isEqual:@"1"]) {
                                 [Utils showAlert:@"亲，用户不存在!!"];
                             }
@@ -331,7 +341,6 @@
                             if ([code isEqual:@"3"]) {
                                 [Utils showAlert:@"亲，系统异常!!"];
                             }
-                            
                             if ([code isEqual:@"0"]) {
                                 
                                 if([dic objectForKey:@"devices"]){
@@ -345,7 +354,6 @@
                                     NSString *username  = [userInfo objectForKey:@"username"];
                                     //NSString *address  = [userInfo objectForKey:@"address"];
                                     NSLog(@"user=%@, username=%@", user, username);
-                                    
                                     //添加用户信息
                                     [[NSUserDefaults standardUserDefaults] setObject:user forKey:@"user"];
                                     [[NSUserDefaults standardUserDefaults] setObject:username forKey:@"username"];
@@ -440,11 +448,24 @@
     NSLog(@"didReadData");
     self.isLogined = YES;
     
-    NSLog(@"data is: %@",data);
-    [self receiveData:data];
-    [sock readDataWithTimeout:-1 tag:0];
+    [self.data appendData:data];
+    
+    NSLog(@"self.data is %@",self.data);
+    NSRange rang = {self.data.length-7,7};
+    NSData *jiequdata = [self.data subdataWithRange:rang];
+    NSString *jiequString = [[NSString alloc]initWithData:jiequdata encoding:NSUTF8StringEncoding];
+    NSLog(@"jiequString is %@",jiequString);
+    NSLog(@"jiequdata is %@",jiequdata);
+    if ([jiequString isEqualToString:@"</UDIS>"]) {
+        NSLog(@"接受完了，传data");
+        [self receiveData:self.data];
+        [sock readDataWithTimeout:0 tag:0];
+    }else {
+        NSLog(@"没接收完，继续接收");
+        
+        [sock readDataWithTimeout:-1 tag:0];
+    }
 }
-
 
 - (void)onSocket:(AsyncSocket *)sock didSecure:(BOOL)flag
 {

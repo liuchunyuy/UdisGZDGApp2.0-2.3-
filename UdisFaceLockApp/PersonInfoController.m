@@ -220,7 +220,7 @@
         NSString *mailStr = [NSString stringWithFormat:@"意见反馈内容\n\n\n\n\n发件人: %@\n手机号: %@",_username,_user];
         [mailController setSubject:@"标题"];
         [mailController setMessageBody:mailStr isHTML:NO];
-        [mailController setToRecipients:@[@"liuchunyuy@163.com"]];
+        [mailController setToRecipients:@[@"hezhongwei@udis.cn"]];
        // [mailController setCcRecipients:@[@"抄送人1", @"抄送人2",]];
        // [mailController setBccRecipients:@[@"密送人1", @"密送人2",]];
         //if (mailController)
@@ -231,8 +231,7 @@
         return;
     }
 }
-- (void)mailComposeController:(MFMailComposeViewController*)controller didFinishWithResult:(MFMailComposeResult)result error:(NSError*)error
-{
+- (void)mailComposeController:(MFMailComposeViewController*)controller didFinishWithResult:(MFMailComposeResult)result error:(NSError*)error{
     // 关闭邮件界面
     [controller dismissViewControllerAnimated:YES completion:nil];
     
@@ -270,7 +269,6 @@
         [alertC addAction:cancelAction];
         [alertC addAction:defaultAction];
         [self presentViewController:alertC animated:YES completion:nil];
-        
     }else {
         
         NSLog(@"systemVersion < 8");
@@ -395,7 +393,6 @@
         }
     }
 }
-
 
 -(void)modiPassword{
 

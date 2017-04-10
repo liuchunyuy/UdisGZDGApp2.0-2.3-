@@ -74,6 +74,7 @@
     return tableView;
 }
 
+
 //将分类的英文改成中文
 + (NSString *)transferCateName:(NSString *)name
 {

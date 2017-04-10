@@ -60,7 +60,7 @@
     _segmentedControl.selectedTextColor = [UIColor colorWithRed:30/255.f green:144/255.f blue:1.0 alpha:1.0];
     _segmentedControl.font = [UIFont systemFontOfSize:13];
     _segmentedControl.selectedFont = [UIFont boldSystemFontOfSize:15];
-    _segmentedControl.lineColor = [UIColor colorWithRed:51/255.f green:61/255.f blue:70/255.f alpha:1.0];
+    _segmentedControl.lineColor = [UIColor colorWithRed:30/255.f green:144/255.f blue:1.0 alpha:1.0];
     _segmentedControl.lineHeight = 2.f;
     // segmentedControlTitleSpacingStyle 设置为 LLSegmentedControlTitleSpacingStyleSpacingFixed
     // 则不需要设置 titleWidth 属性

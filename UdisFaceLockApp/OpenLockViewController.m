@@ -25,6 +25,7 @@
 }
 
 @property(nonatomic)BOOL isLogined;
+@property(nonatomic,strong)NSString *totalmessage;
 
 @end
 
@@ -41,7 +42,7 @@
     [self.navigationController.navigationBar setTitleTextAttributes:@{NSForegroundColorAttributeName:[UIColor whiteColor]}];
     //左按钮颜色
     [self.navigationController.navigationBar setTintColor:[UIColor whiteColor]];
-    
+    _totalmessage = @"";
     self.extendedLayoutIncludesOpaqueBars = YES;// 延伸导航栏至（0.0
     
     [self createAnim];
@@ -165,7 +166,7 @@
     NSString * inputMsgStr = [[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding];
     NSString * content = [[_MESSAGE_START stringByAppendingString:inputMsgStr] stringByAppendingString:_MESSAGE_END];
     NSLog(@"send action is: %@",content);
-    NSData *sendata = [content dataUsingEncoding:NSISOLatin1StringEncoding];
+    NSData *sendata = [content dataUsingEncoding:NSUTF8StringEncoding];
     [clientSocket writeData:sendata withTimeout:20 tag:100];
     self.isLogined = NO;
     [self performSelector:@selector(checkIsLogined) withObject:nil afterDelay:20];
@@ -186,18 +187,18 @@
 //接收数据
 -(void)receiveData :(NSData *)data{
     
-    NSString *totalmessage=@"";
+    //NSString *totalmessage=@"";
     if (data) {
         NSString *recvMessage = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
         NSLog(@"recvMessage is: %@",recvMessage);
         if(recvMessage){
-            totalmessage=[totalmessage stringByAppendingString:recvMessage];
-            NSLog(@"totalmessage is: %@",totalmessage);
-            NSRange rangeStart = [totalmessage rangeOfString:_MESSAGE_START];
+            _totalmessage=[_totalmessage stringByAppendingString:recvMessage];
+            NSLog(@"totalmessage is: %@",_totalmessage);
+            NSRange rangeStart = [_totalmessage rangeOfString:_MESSAGE_START];
             int locationStrat = rangeStart.location;
             int leightStart = rangeStart.length;
             NSLog(@"start is %d,%d",locationStrat,leightStart);
-            NSRange rangeEnd = [totalmessage rangeOfString:_MESSAGE_END];
+            NSRange rangeEnd = [_totalmessage rangeOfString:_MESSAGE_END];
             int locationEnd = rangeEnd.location;
             int leightEnd = rangeEnd.length;
             NSLog(@"end is %d,%d",locationEnd,leightEnd);
@@ -206,10 +207,10 @@
                 [MBProgressHUD hideHUDForView:self.view animated:YES];
                 
                 //截取掉前后 udis 标志
-                NSString *needmessage=[[totalmessage substringToIndex:locationEnd] substringFromIndex:leightStart];
+                NSString *needmessage=[[_totalmessage substringToIndex:locationEnd] substringFromIndex:leightStart];
                 NSLog(@"needmessage is: %@",needmessage);
                 NSDictionary *dic=[NSJSONSerialization JSONObjectWithData:[needmessage dataUsingEncoding:NSUTF8StringEncoding] options:NSJSONReadingAllowFragments error:nil];
-                //totalmessage=@"";
+                _totalmessage=@"";
                 NSLog(@"dic=%@",dic);
                 if([dic objectForKey:@"command"]){//含有command 节点
                     NSString *command=[dic objectForKey:@"command"];

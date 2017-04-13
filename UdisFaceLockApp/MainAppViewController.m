@@ -237,8 +237,6 @@ NSString *totalmessage=@"";
             return ;
         }
         NSDictionary *dic=[NSJSONSerialization JSONObjectWithData:[rec dataUsingEncoding:NSUTF8StringEncoding] options:NSJSONReadingAllowFragments error:nil];
-       // NSLog(@"image dic is %@", dic);
-        
         //回到主线程刷新页面
         dispatch_async(dispatch_get_main_queue(), ^{
             
@@ -246,7 +244,6 @@ NSString *totalmessage=@"";
                 NSString *imgUrl =  [dic1 objectForKey:@"imgUrl"];
                 [_netImageArr addObject:imgUrl];
             }
-           // NSLog(@"--------%@", _netImageArr);
             if (_netImageArr.count == 0) {
                 return ;
             }
@@ -254,7 +251,6 @@ NSString *totalmessage=@"";
             _roundScrollView=[SZKRoundScrollView roundScrollViewWithFrame:CGRectMake(0, 64, VIEW_WEIGHT, (VIEW_HEIGTH-64-49)/3) imageArr:_netImageArr timerWithTimeInterval:2 imageClick:^(NSInteger imageIndex) {
                 NSLog(@"imageIndex:第%ld个",(long)imageIndex);
             }];
-            
             [self.view addSubview:_roundScrollView];
         });
         

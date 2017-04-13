@@ -103,7 +103,6 @@
     [_dataArray removeAllObjects];
     NSLog(@"查询快递物流");
     AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
-    
     //参数
     NSDictionary *parma = @{@"c":_inPutTextfield.text};
     

@@ -14,6 +14,9 @@
 #import "MBProgressHUD.h"
 #import "SZKRoundScrollView.h"
 #import "SingletonSocket.h"
+
+#define VIEW_HEIGTH self.view.frame.size.height
+#define VIEW_WEIGHT self.view.frame.size.width
 @interface OpenLockViewController ()<UIScrollViewDelegate>{
     
     //Device *currentDevice;//当前选择的锁
@@ -48,12 +51,13 @@
     [self createAnim];
     [self creatOpenBtn];
     [self creatLabel];
+    [self createAdvertisement]; // 广告
     
 }
 
 -(void)creatOpenBtn{
 
-    UIButton *btn = [MyUtiles createBtnWithFrame:CGRectMake(self.view.frame.size.width/2-40, self.view.frame.size.height/2-40, 80, 80) title:@"开门" normalBgImg:nil highlightedBgImg:nil target:self action:@selector(openLock)];
+    UIButton *btn = [MyUtiles createBtnWithFrame:CGRectMake(VIEW_WEIGHT/2-40, (64+(VIEW_HEIGTH-64-50)/3)-40, 80, 80) title:@"开门" normalBgImg:nil highlightedBgImg:nil target:self action:@selector(openLock)];
     //btn.backgroundColor = [UIColor colorWithRed:127/255.f green:255/255.f blue:212/255.f alpha:1.0];
     //btn.layer.cornerRadius = 40;
     //btn.layer.borderColor = [[UIColor lightGrayColor] CGColor];
@@ -340,8 +344,8 @@
 //添加波纹动画
 -(void)createAnim{
     
-    UIBezierPath *startPath = [UIBezierPath bezierPathWithArcCenter:CGPointMake(self.view.frame.size.width/2, self.view.frame.size.height/2) radius:10 startAngle:0 endAngle:M_PI*2 clockwise:YES];
-    UIBezierPath *endPath = [UIBezierPath bezierPathWithArcCenter:CGPointMake(self.view.frame.size.width/2, self.view.frame.size.height/2) radius:120 startAngle:0 endAngle:M_PI*2 clockwise:YES];
+    UIBezierPath *startPath = [UIBezierPath bezierPathWithArcCenter:CGPointMake(VIEW_WEIGHT/2, (64+(VIEW_HEIGTH-64-50)/3)) radius:10 startAngle:0 endAngle:M_PI*2 clockwise:YES];
+    UIBezierPath *endPath = [UIBezierPath bezierPathWithArcCenter:CGPointMake(VIEW_WEIGHT/2, (64+(VIEW_HEIGTH-64-50)/3)) radius:120 startAngle:0 endAngle:M_PI*2 clockwise:YES];
     CAShapeLayer *layer = [CAShapeLayer layer];
     layer.path = startPath.CGPath;
     //线宽
@@ -385,18 +389,31 @@
     });
 }
 
+-(void)createAdvertisement{
+
+    for (int i = 0; i < 2; i++) {
+        UIButton *advertisementBtn = [MyUtiles createBtnWithFrame:CGRectMake(10+((VIEW_WEIGHT-35)/2+15)*i,64+2*(VIEW_HEIGTH-64-50)/3,(VIEW_WEIGHT-35)/2,(VIEW_HEIGTH-64-50)/3) title:nil normalBgImg:@"moren1" highlightedBgImg:@"moren1" target:self action:@selector(goAdvertisementDetailVc:)];
+        advertisementBtn.tag = i+1000;
+        [self .view addSubview:advertisementBtn];
+    }
+}
+
+-(void)goAdvertisementDetailVc:(UIButton *)btn{
+
+    NSInteger num = btn.tag - 1000;
+    NSLog(@"点击第%ld个按钮",(long)num);
+    if (num == 0) {
+        NSLog(@"第一个广告");
+    }else if (num == 1){
+        NSLog(@"第二个广告");
+    }
+}
+
 -(void)creatLabel{
  
-    UILabel *label = [MyUtiles createLabelWithFrame:CGRectMake((self.view.frame.size.width-150)/2, self.view.frame.size.height-120, 60, 30) font:[UIFont systemFontOfSize:14] textAlignment:NSTextAlignmentCenter color:[UIColor lightGrayColor] text:@"智慧生活"];
+    UILabel *label = [MyUtiles createLabelWithFrame:CGRectMake(0, self.view.frame.size.height-50, self.view.frame.size.width, 30) font:[UIFont systemFontOfSize:14] textAlignment:NSTextAlignmentCenter color:[UIColor lightGrayColor] text:@"智慧生活\t|\t你我共享"];
     [self.view addSubview:label];
     
-    UIView *lineView = [[UIView alloc]initWithFrame:CGRectMake((self.view.frame.size.width-150)/2+75, self.view.frame.size.height-112.5, 1, 15)];
-    lineView.backgroundColor = [UIColor lightGrayColor];
-    [self.view addSubview:lineView];
-    
-    UILabel *label1 = [MyUtiles createLabelWithFrame:CGRectMake((self.view.frame.size.width-150)/2+90, self.view.frame.size.height-120, 60, 30) font:[UIFont systemFontOfSize:14] textAlignment:NSTextAlignmentCenter color:[UIColor lightGrayColor] text:@"你我共享"];
-    [self.view addSubview:label1];
-
 }
 
 - (void)didReceiveMemoryWarning {

@@ -224,7 +224,7 @@
        // [mailController setCcRecipients:@[@"抄送人1", @"抄送人2",]];
        // [mailController setBccRecipients:@[@"密送人1", @"密送人2",]];
         //if (mailController)
-            [self presentViewController:mailController animated:YES completion:nil];
+        [self presentViewController:mailController animated:YES completion:nil];
     }else {
         UIAlertView *alert = [[UIAlertView alloc]initWithTitle:@"不能发送邮件" message:@"请检查设置-邮件-帐户是否添加了帐户及邮件是否为打开状态" delegate:nil cancelButtonTitle:@"确定" otherButtonTitles:nil, nil];
         [alert show];

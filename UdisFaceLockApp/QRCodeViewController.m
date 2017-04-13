@@ -14,6 +14,12 @@
 #import "SZKRoundScrollView.h"
 #import "MyUtiles.h"
 
+#import <ShareSDK/ShareSDK.h>
+#import <ShareSDKUI/ShareSDK+SSUI.h>
+
+#define VIEW_HEIGTH self.view.frame.size.height
+#define VIEW_WEIGHT self.view.frame.size.width
+
 @interface QRCodeViewController ()<CNPPopupControllerDelegate,UIGestureRecognizerDelegate>
 {
 
@@ -61,6 +67,7 @@
     self.extendedLayoutIncludesOpaqueBars = YES;// 延伸导航栏至（0.0
     [self initPageViewQRcodes];
     [self creatLabel1];
+    [self createAdvertisement];
 }
 
 //二维码界面
@@ -322,10 +329,13 @@
     paragraphStyle.alignment = NSTextAlignmentCenter;
     
     NSAttributedString *title = [[NSAttributedString alloc] initWithString:@"二维码" attributes:@{NSFontAttributeName : [UIFont boldSystemFontOfSize:18], NSParagraphStyleAttributeName : paragraphStyle}];
-    
+    //二维码图片上访客名字
     NSString * visitName = [@"访客：" stringByAppendingString:visitnameTextField.text] ;
-    NSAttributedString *lineOne = [[NSAttributedString alloc] initWithString:visitName attributes:@{NSFontAttributeName : [UIFont systemFontOfSize:18], NSParagraphStyleAttributeName : paragraphStyle}];
-    NSAttributedString *lineTwo = [[NSAttributedString alloc] initWithString:@"注意：二维码当天生成,当天有效" attributes:@{NSFontAttributeName : [UIFont systemFontOfSize:15], NSForegroundColorAttributeName : [UIColor colorWithRed:0.46 green:0.8 blue:1.0 alpha:1.0], NSParagraphStyleAttributeName : paragraphStyle}];
+    NSAttributedString *lineOne = [[NSAttributedString alloc] initWithString:visitName attributes:@{NSFontAttributeName : [UIFont systemFontOfSize:15], NSParagraphStyleAttributeName : paragraphStyle}];
+    //二维码有效期说明
+    NSAttributedString *lineTwo = [[NSAttributedString alloc] initWithString:@"注意：二维码当天生成,当天有效" attributes:@{NSFontAttributeName : [UIFont systemFontOfSize:13], NSForegroundColorAttributeName : [UIColor colorWithRed:0.46 green:0.8 blue:1.0 alpha:1.0], NSParagraphStyleAttributeName : paragraphStyle}];
+    //二维码图片上门锁名字
+    NSAttributedString *lineThree = [[NSAttributedString alloc] initWithString:[currentDevice objectForKey:@"devicename"] attributes:@{NSFontAttributeName : [UIFont systemFontOfSize:13],NSForegroundColorAttributeName : [UIColor colorWithRed:0.46 green:0.8 blue:1.0 alpha:1.0], NSParagraphStyleAttributeName : paragraphStyle}];
     
     UILabel *titleLabel = [[UILabel alloc] init];
     titleLabel.numberOfLines = 0;
@@ -339,9 +349,14 @@
     lineTwoLabel.numberOfLines = 0;
     lineTwoLabel.attributedText = lineTwo;
     
-    CNPPopupButton *button = [[CNPPopupButton alloc] initWithFrame:CGRectMake(0, 0, 150, 40)];
+    UILabel *lineThreeLabel = [[UILabel alloc] init];
+    lineThreeLabel.numberOfLines = 0;
+    lineThreeLabel.attributedText = lineThree;
+    
+    CNPPopupButton *button = [[CNPPopupButton alloc] initWithFrame:CGRectMake(0, 0, 150, 30)];
     [button setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-    button.titleLabel.font = [UIFont boldSystemFontOfSize:18];
+    [button setTitleColor:[UIColor grayColor] forState:UIControlStateHighlighted];
+    button.titleLabel.font = [UIFont boldSystemFontOfSize:16];
     [button setTitle:@"存盘" forState:UIControlStateNormal];
     button.backgroundColor = [UIColor colorWithRed:0.46 green:0.8 blue:1.0 alpha:1.0];
     button.layer.cornerRadius = 4;
@@ -349,7 +364,7 @@
         
         //界面元素保存成图片
         // UIGraphicsBeginImageContext(popupController.outView.bounds.size);
-        UIGraphicsBeginImageContext(CGSizeMake(popupController.outView.bounds.size.width, popupController.outView.bounds.size.height-60));
+        UIGraphicsBeginImageContext(CGSizeMake(popupController.outView.bounds.size.width, popupController.outView.bounds.size.height-60-40));
         [popupController.outView.layer renderInContext:UIGraphicsGetCurrentContext()];
         UIImage *viewImage = UIGraphicsGetImageFromCurrentImageContext();
         UIGraphicsEndImageContext();
@@ -359,8 +374,61 @@
         NSLog(@"Block for button: %@", button.titleLabel.text);
         
     };
-    
-    popupController = [[CNPPopupController alloc] initWithContents:@[lineOneLabel, imageView, lineTwoLabel, button]];
+    CNPPopupButton *button1 = [[CNPPopupButton alloc] initWithFrame:CGRectMake(0, 0, 150, 30)];
+    [button1 setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+    [button1 setTitleColor:[UIColor grayColor] forState:UIControlStateHighlighted];
+    button1.titleLabel.font = [UIFont boldSystemFontOfSize:16];
+    [button1 setTitle:@"分享" forState:UIControlStateNormal];
+    button1.backgroundColor = [UIColor colorWithRed:0.46 green:0.8 blue:1.0 alpha:1.0];
+    button1.layer.cornerRadius = 4;
+    button1.selectionHandler = ^(CNPPopupButton *button){
+        NSLog(@"点击分享");
+        //界面元素保存成图片
+        // UIGraphicsBeginImageContext(popupController.outView.bounds.size);
+        UIGraphicsBeginImageContext(CGSizeMake(popupController.outView.bounds.size.width, popupController.outView.bounds.size.height-60-40));
+        [popupController.outView.layer renderInContext:UIGraphicsGetCurrentContext()];
+        UIImage *viewImage = UIGraphicsGetImageFromCurrentImageContext();
+        UIGraphicsEndImageContext();
+
+        //1、创建分享参数
+        NSArray* imageArray = @[viewImage];
+        //（注意：图片必须要在Xcode左边目录里面，名称必须要传正确，如果要分享网络图片，可以这样传iamge参数 images:@[@"http://mob.com/Assets/images/logo.png?v=20150320"]）
+        if (imageArray) {
+            NSMutableDictionary *shareParams = [NSMutableDictionary dictionary];
+            //[NSURL URLWithString:@"http://mob.com"]
+            [shareParams SSDKSetupShareParamsByText:[currentDevice objectForKey:@"devicename"] images:imageArray url:nil title:@"二维码"type:SSDKContentTypeAuto];
+            //有的平台要客户端分享需要加此方法，例如微博
+            [shareParams SSDKEnableUseClientShare];
+            
+            //2、分享（可以弹出我们的分享菜单和编辑界面）
+            [ShareSDK showShareActionSheet:nil items:nil shareParams:shareParams onShareStateChanged:^(SSDKResponseState state, SSDKPlatformType platformType, NSDictionary *userData, SSDKContentEntity *contentEntity, NSError *error, BOOL end) {
+                
+                NSLog(@"state is %lu",(unsigned long)state);
+                NSLog(@"error is %@",error);
+                switch (state) {
+                    case SSDKResponseStateBegin:{   // 开始
+                        NSLog(@"开始");
+                        break;
+                    }case SSDKResponseStateSuccess:{   // 分享成功
+                        NSLog(@"成功");
+                        [self showAlert:@"分享成功"];
+                        break;
+                    }case SSDKResponseStateFail:{      // 分享失败
+                        NSLog(@"error is %@",error);
+                        [self showAlert:@"分享失败"];
+                        break;
+                    }case SSDKResponseStateCancel:{     // 分享取消
+                        [self showAlert:@"分享取消"];
+                        break;
+                    }
+                    default:
+                        break;
+                }
+            }
+        ];}
+    };
+        
+    popupController = [[CNPPopupController alloc] initWithContents:@[lineThreeLabel,lineOneLabel, imageView, lineTwoLabel, button,button1]];
     popupController.theme = [CNPPopupTheme defaultTheme];
     popupController.theme.popupStyle = popupStyle;
     popupController.delegate = self;
@@ -453,7 +521,7 @@
 }
 
 - (void)showAlert:(NSString *) _message{//时间
-    UIAlertView *promptAlert = [[UIAlertView alloc] initWithTitle:@"提示:" message:_message delegate:nil cancelButtonTitle:nil otherButtonTitles:nil];
+    UIAlertView *promptAlert = [[UIAlertView alloc] initWithTitle:nil message:_message delegate:nil cancelButtonTitle:nil otherButtonTitles:nil];
     
     [NSTimer scheduledTimerWithTimeInterval:1.5f
                                      target:self
@@ -492,17 +560,29 @@
     // Dispose of any resources that can be recreated.
 }
 
+-(void)createAdvertisement{
+    
+    for (int i = 0; i < 2; i++) {
+        UIButton *advertisementBtn = [MyUtiles createBtnWithFrame:CGRectMake(10+((VIEW_WEIGHT-35)/2+15)*i,64+2*(VIEW_HEIGTH-64-50)/3,(VIEW_WEIGHT-35)/2,(VIEW_HEIGTH-64-50)/3) title:nil normalBgImg:@"moren1" highlightedBgImg:@"moren1" target:self action:@selector(goAdvertisementDetailVc:)];
+        advertisementBtn.tag = i+1000;
+        [self .view addSubview:advertisementBtn];
+    }
+}
+
+-(void)goAdvertisementDetailVc:(UIButton *)btn{
+    
+    NSInteger num = btn.tag - 1000;
+    if (num == 0) {
+        NSLog(@"第一个广告");
+    }else if (num == 1){
+        NSLog(@"第二个广告");
+    }
+}
+
 -(void)creatLabel1{
     
-    UILabel *label = [MyUtiles createLabelWithFrame:CGRectMake((self.view.frame.size.width-150)/2, self.view.frame.size.height-120, 60, 30) font:[UIFont systemFontOfSize:14] textAlignment:NSTextAlignmentCenter color:[UIColor lightGrayColor] text:@"智慧生活"];
+    UILabel *label = [MyUtiles createLabelWithFrame:CGRectMake(0, self.view.frame.size.height-50, self.view.frame.size.width, 30) font:[UIFont systemFontOfSize:14] textAlignment:NSTextAlignmentCenter color:[UIColor lightGrayColor] text:@"智慧生活\t|\t你我共享"];
     [self.view addSubview:label];
-    
-    UIView *lineView = [[UIView alloc]initWithFrame:CGRectMake((self.view.frame.size.width-150)/2+75, self.view.frame.size.height-112.5, 1, 15)];
-    lineView.backgroundColor = [UIColor lightGrayColor];
-    [self.view addSubview:lineView];
-    
-    UILabel *label1 = [MyUtiles createLabelWithFrame:CGRectMake((self.view.frame.size.width-150)/2+90, self.view.frame.size.height-120, 60, 30) font:[UIFont systemFontOfSize:14] textAlignment:NSTextAlignmentCenter color:[UIColor lightGrayColor] text:@"你我共享"];
-    [self.view addSubview:label1];
     
 }
 

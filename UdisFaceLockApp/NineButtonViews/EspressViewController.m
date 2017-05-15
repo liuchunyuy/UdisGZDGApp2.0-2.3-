@@ -19,7 +19,7 @@
 #define VIEW_HEIGTH self.view.frame.size.height
 #define VIEW_WEIGHT self.view.frame.size.width
 #define kExpress @"https://www.wenlong.org/kuaidi/"
-@interface EspressViewController ()<UITableViewDelegate,UITableViewDataSource>
+@interface EspressViewController ()<UITableViewDelegate,UITableViewDataSource,UIGestureRecognizerDelegate>
 
 @property(nonatomic,strong)UITextField *inPutTextfield;
 //@property(nonatomic,strong)NSMutableArray *expressMessageArr;
@@ -35,6 +35,13 @@
     self.navigationItem.title = @"快递物流查询";
     self.view.backgroundColor = [UIColor colorWithRed:245/255.f green:245/255.f blue:245/255.f alpha:1.0];
     [self.navigationController.navigationBar setTitleTextAttributes:@{NSForegroundColorAttributeName:[UIColor whiteColor]}];
+    
+    //添加self.view的点击事件（点击屏幕空白取消键盘）
+    UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc]
+                                   initWithTarget:self
+                                   action:@selector(dismissKeyboard)];
+    [self.view addGestureRecognizer:tap];
+    tap.delegate = self;
     //左按钮颜色
     //_expressMessageArr = [NSMutableArray array];
     _dataArray = [NSMutableArray array];
@@ -108,6 +115,11 @@
     
     [manager POST:kExpress parameters:parma progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
         NSLog(@"responseObject is %@",responseObject);
+        if (responseObject == nil) {
+            [self showAlert:@"单号或网络错误"];
+            [MBProgressHUD hideHUDForView:self.view animated:YES];
+            return ;
+        }
         NSArray * expressMessageArr = [responseObject objectForKey:@"data"];
         NSLog(@"_expressMessageArr is %@",expressMessageArr);
         NSLog(@"message is %@",[responseObject objectForKey:@"message"]);
@@ -184,6 +196,11 @@
                                    userInfo:promptAlert
                                     repeats:YES];
     [promptAlert show];
+}
+
+-(void)dismissKeyboard {
+    [self.view endEditing:YES];
+    //[self.nameTextField resignFirstResponder];
 }
 
 - (void)didReceiveMemoryWarning {

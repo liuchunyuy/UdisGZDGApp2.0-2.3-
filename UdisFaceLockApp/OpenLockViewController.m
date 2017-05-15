@@ -88,7 +88,6 @@
                 [self sendOpenLockData:currentDevice];
                 
             }else{
-                
                 [self sendOpenLockData:currentDevice];
             }
             
@@ -114,8 +113,7 @@
                     NSLog(@"current deviceitem name is %@",[currentDevice objectForKey:@"devicename"]);
                     
                     [MBProgressHUD showHUDAddedTo:self.view animated:YES];
-                    if(clientSocket==nil)
-                    {
+                    if(clientSocket==nil){
                         [self ConnectToSever];//连接服务器
                         [self sendOpenLockData:currentDevice];
                         //NSLog(@"sock is null !");
@@ -228,15 +226,23 @@
                             
                             if ([code isEqual:@"1"]) {
                                 [Utils showAlert:@"设备有问题，开门失败，请联系管理员!"];
+                                [self disconnect:clientSocket];
+                                clientSocket = nil;
                             }
                             if ([code isEqual:@"2"]) {
                                 [Utils showAlert:@"数据有问题，开门失败，请联系管理员!"];
+                                [self disconnect:clientSocket];
+                                clientSocket = nil;
                             }
                             if ([code isEqual:@"3"]) {
                                 [Utils showAlert:@"系统异常，开门失败，请联系管理员!"];
+                                [self disconnect:clientSocket];
+                                clientSocket = nil;
                             }
                             if ([code isEqual:@"0"]) {
                                 [Utils showAlert:@"开门成功！"];
+                                [self disconnect:clientSocket];
+                                clientSocket = nil;
                             }
                         }
                     }
@@ -320,6 +326,23 @@
     [Utils showAlert:_SOCKET_CONNECT_FAIL];
 }
 
+- (void)viewWillDisappear:(BOOL)animated{
+    [self disconnect :clientSocket];
+}
+
+//断开连接
+-(void) disconnect:(AsyncSocket *)sock
+{
+    //立即断开，任何未处理的读或写都将被丢弃
+    //如果socket还没有断开，在这个方法返回之前，onSocketDidDisconnect 委托方法将会被立即调用
+    //注意推荐释放AsyncSocket实例的方式：
+    NSLog(@"device socket exit!!!");
+    [sock setDelegate:nil];
+    [sock disconnect];
+    //[_clientSocket release];
+    
+}
+
 #pragma end Delegate
 
 - (void)timerFireMethod:(NSTimer*)theTimer{  //弹出框
@@ -391,8 +414,9 @@
 
 -(void)createAdvertisement{
 
+    NSArray *imageUrl = @[@"advertisement_1.jpg",@"advertisement_2.jpg"];
     for (int i = 0; i < 2; i++) {
-        UIButton *advertisementBtn = [MyUtiles createBtnWithFrame:CGRectMake(10+((VIEW_WEIGHT-35)/2+15)*i,64+2*(VIEW_HEIGTH-64-50)/3,(VIEW_WEIGHT-35)/2,(VIEW_HEIGTH-64-50)/3) title:nil normalBgImg:@"moren1" highlightedBgImg:@"moren1" target:self action:@selector(goAdvertisementDetailVc:)];
+        UIButton *advertisementBtn = [MyUtiles createBtnWithFrame:CGRectMake(10+((VIEW_WEIGHT-35)/2+15)*i,VIEW_HEIGTH- 3*((VIEW_WEIGHT-35)/2/5) -50-20 ,(VIEW_WEIGHT-35)/2,3*((VIEW_WEIGHT-35)/2/5)) title:nil normalBgImg:imageUrl[i] highlightedBgImg:imageUrl[i] target:self action:@selector(goAdvertisementDetailVc:)];
         advertisementBtn.tag = i+1000;
         [self .view addSubview:advertisementBtn];
     }
@@ -401,7 +425,6 @@
 -(void)goAdvertisementDetailVc:(UIButton *)btn{
 
     NSInteger num = btn.tag - 1000;
-    NSLog(@"点击第%ld个按钮",(long)num);
     if (num == 0) {
         NSLog(@"第一个广告");
     }else if (num == 1){

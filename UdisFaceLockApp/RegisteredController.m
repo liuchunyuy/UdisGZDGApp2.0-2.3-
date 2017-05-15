@@ -27,7 +27,7 @@
 @property(nonatomic,strong)NSString *totalmessage;
 @property(nonatomic)BOOL isLogined;
 
-@property(nonatomic,strong)NSMutableData *data;
+//@property(nonatomic,strong)NSMutableData *data;
 
 @end
 
@@ -37,13 +37,13 @@
 }
 
 //懒加载一个data，用于保存服务器返回的数据
-
-- (NSMutableData *)data {
-    if (_data == nil) {
-        _data = [NSMutableData new];
-    }
-    return _data;
-}
+//
+//- (NSMutableData *)data {
+//    if (_data == nil) {
+//        _data = [NSMutableData new];
+//    }
+//    return _data;
+//}
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -81,7 +81,7 @@
 
 -(void)createVersonLabel{
 
-    NSString *versionStr1 = @"2.31";    //用户正在使用的版本-------代码的写死
+    NSString *versionStr1 = @"3.0";    //用户正在使用的版本-------代码的写死
     UILabel *versonLabel = [MyUtiles createLabelWithFrame:CGRectMake(3*(self.view.frame.size.width/4), self.view.frame.size.height-40, self.view.frame.size.width/4, 40) font:[UIFont systemFontOfSize:12] textAlignment:NSTextAlignmentLeft color:[UIColor lightGrayColor] text:[NSString stringWithFormat:@"Version: %@",versionStr1]];
     [self.view addSubview:versonLabel];
 
@@ -189,7 +189,7 @@
 
 - (void)LoginBtn:(id)sender{
      NSLog(@"click login button");
-    self.data = [NSMutableData data];
+    //self.data = [NSMutableData data];
     NSString *str = _nameTextField.text;
     if (str.length > 0) {
         
@@ -213,8 +213,7 @@
         //[self ConnectToSever];//连接服务器
         if ( [self ConnectToSever]) {
             [self login];
-        }
-        
+        }        
     }else{
         [self login];
     }
@@ -293,13 +292,13 @@
         NSLog(@"recvMessage is: %@",recvMessage);
         NSLog(@"recvMessage length is %lu",(unsigned long)recvMessage.length);
         if(recvMessage){
-            //_totalmessage=[_totalmessage stringByAppendingString:recvMessage];
-           // NSLog(@"totalmessage is: %@",_totalmessage);
-            NSRange rangeStart = [recvMessage rangeOfString:_MESSAGE_START];
+            _totalmessage=[_totalmessage stringByAppendingString:recvMessage];
+            NSLog(@"totalmessage is: %@",_totalmessage);
+            NSRange rangeStart = [_totalmessage rangeOfString:_MESSAGE_START];
             int locationStrat = rangeStart.location;
             int leightStart = rangeStart.length;
             NSLog(@"start is %d,%d",locationStrat,leightStart);
-            NSRange rangeEnd = [recvMessage rangeOfString:_MESSAGE_END];
+            NSRange rangeEnd = [_totalmessage rangeOfString:_MESSAGE_END];
             int locationEnd = rangeEnd.location;
             int leightEnd = rangeEnd.length;
             NSLog(@"end is %d,%d",locationEnd,leightEnd);
@@ -307,7 +306,7 @@
                 //取消登陆等待框
                 [MBProgressHUD hideHUDForView:self.view animated:YES];
                 //截取掉前后 udis 标志
-                NSString *needmessage=[[recvMessage substringToIndex:locationEnd] substringFromIndex:leightStart];
+                NSString *needmessage=[[_totalmessage substringToIndex:locationEnd] substringFromIndex:leightStart];
               //  NSLog(@"--------needmessage is: %@",needmessage);
                 NSDictionary *dic=[NSJSONSerialization JSONObjectWithData:[needmessage dataUsingEncoding:NSUTF8StringEncoding] options:NSJSONReadingAllowFragments error:nil];
                 // totalmessage=@"";
@@ -334,12 +333,18 @@
                             }
                             if ([code isEqual:@"1"]) {
                                 [Utils showAlert:@"亲，用户不存在!!"];
+                                 [self disconnect :clientSocket];
+                                clientSocket = nil;
                             }
                             if ([code isEqual:@"2"]) {
                                 [Utils showAlert:@"亲，密码错误!!"];
+                                [self disconnect :clientSocket];
+                                clientSocket = nil;
                             }
                             if ([code isEqual:@"3"]) {
                                 [Utils showAlert:@"亲，系统异常!!"];
+                                [self disconnect :clientSocket];
+                                clientSocket = nil;
                             }
                             if ([code isEqual:@"0"]) {
                                 
@@ -407,6 +412,7 @@
         [MBProgressHUD hideHUDForView:self.view animated:YES];
         [self showAlert:@"系统忙，稍候再试 "];
        // [SingletonSocket sharedInstance].socket = nil;
+        clientSocket = nil;
     }
 }
 
@@ -448,23 +454,27 @@
     NSLog(@"didReadData");
     self.isLogined = YES;
     
-    [self.data appendData:data];
+   // [self.data appendData:data];
     
-    NSLog(@"self.data is %@",self.data);
-    NSRange rang = {self.data.length-7,7};
-    NSData *jiequdata = [self.data subdataWithRange:rang];
-    NSString *jiequString = [[NSString alloc]initWithData:jiequdata encoding:NSUTF8StringEncoding];
-    NSLog(@"jiequString is %@",jiequString);
-    NSLog(@"jiequdata is %@",jiequdata);
-    if ([jiequString isEqualToString:@"</UDIS>"]) {
-        NSLog(@"接受完了，传data");
-        [self receiveData:self.data];
-        [sock readDataWithTimeout:0 tag:0];
-    }else {
-        NSLog(@"没接收完，继续接收");
-        
+    /*   *********逻辑有待考量的地方**********
+     此处不同于以前的先把接受到的data utf-8解码成string，再去拼接string
+     现在的做法是，把</UDIS>转化为data，判断每次接收到data的后7为是不是</UDIS>，
+     不是则继续拼接data，是的话拼接完成，把整个data传到receiveData :(NSData *)data方法里，用utf-8解码data
+    */
+    //NSLog(@"self.data is %@",self.data);
+    //NSRange rang = {self.data.length-7,7};
+    //NSData *jiequdata = [self.data subdataWithRange:rang];
+   // NSString *jiequString = [[NSString alloc]initWithData:jiequdata encoding:NSUTF8StringEncoding];
+    //NSLog(@"jiequString is %@",jiequString);
+    //NSLog(@"jiequdata is %@",jiequdata);
+    //if ([jiequString isEqualToString:@"</UDIS>"]) {
+       // NSLog(@"接受完了，传data");
+        [self receiveData:data];
+     //   [sock readDataWithTimeout:0 tag:0];
+   // }else {
+      //  NSLog(@"没接收完，继续接收");
         [sock readDataWithTimeout:-1 tag:0];
-    }
+    //}
 }
 
 - (void)onSocket:(AsyncSocket *)sock didSecure:(BOOL)flag

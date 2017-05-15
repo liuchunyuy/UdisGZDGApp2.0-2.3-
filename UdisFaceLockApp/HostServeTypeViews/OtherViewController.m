@@ -7,7 +7,10 @@
 //
 
 #import "OtherViewController.h"
+#import "MyUtiles.h"
 
+#define VIEW_HEIGTH self.view.frame.size.height
+#define VIEW_WEIGHT self.view.frame.size.width
 @interface OtherViewController ()
 
 @end
@@ -25,7 +28,16 @@
     //左按钮颜色
     [self.navigationController.navigationBar setTintColor:[UIColor whiteColor]];
     self.extendedLayoutIncludesOpaqueBars = YES;// 延伸导航栏至（0.0
+    
+    [self createView];
 
+}
+
+-(void)createView{
+
+    UILabel *label = [MyUtiles createLabelWithFrame:CGRectMake(0, VIEW_HEIGTH/2, VIEW_WEIGHT, 60) font:[UIFont systemFontOfSize:14] textAlignment:NSTextAlignmentCenter color:[UIColor lightGrayColor] text:@"(*>.<*)\n暂无其他"];
+    label.numberOfLines = 0;
+    [self.view addSubview:label];
 }
 
 - (void)didReceiveMemoryWarning {

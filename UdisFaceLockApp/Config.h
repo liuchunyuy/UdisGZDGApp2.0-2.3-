@@ -10,16 +10,23 @@
 #import <Foundation/Foundation.h>
 
 //-----------------上海----------------
-//#define _SERVER_ADDRESS @"140.207.101.214"                                          //服务器地址
-//#define _SCROOLVIEW_IMAGE_URL @"http://140.207.101.214/UDISGZDG/advertisement.json" //轮播图片地址
-//#define _VERSION_URL @"http://140.207.101.214/UDISGZDG/update_IOS.txt"              //版本号地址
+#define _SERVER_ADDRESS @"140.207.101.214"                                          //服务器地址
+#define _SCROOLVIEW_IMAGE_URL @"http://140.207.101.214/UDISGZDG/advertisement.json" //轮播图片地址
+#define _VERSION_URL @"http://140.207.101.214/UDISGZDG/update_IOS.txt"              //版本号地址
+
+//-----------------共用----------------
+#define start_IMAGE_URL @"http://140.207.101.214/UDISGZDG/start.json" //启动图地址
+#define advertisement_opendoor_IMAGE_URL @"http://140.207.101.214/UDISGZDG/opendoor.json" //开门页面广告地址
+#define advertisement_qrcode_IMAGE_URL @"http://140.207.101.214/UDISGZDG/qrcode.json" //二维码页面广告地址
 
 
 //-----------------贵州----------------
 //#define _SERVER_ADDRESS @"220.197.186.34"
-#define _SERVER_ADDRESS @"www.xn--xhqp9ff9azy4at4fur5a.com"                         //服务器地址
-#define _SCROOLVIEW_IMAGE_URL @"http://220.197.186.34:8081/gzdg/advertisement.json" //轮播图片地址
-#define _VERSION_URL @"http://220.197.186.34:8081/gzdg/update_IOS.txt"              //版本号地址
+//#define _SERVER_ADDRESS @"www.xn--xhqp9ff9azy4at4fur5a.com"                         //服务器地址
+//#define _SCROOLVIEW_IMAGE_URL @"http://220.197.186.34:8081/gzdg/advertisement.json" //轮播图片地址
+//#define _VERSION_URL @"http://220.197.186.34:8081/gzdg/update_IOS.txt"              //版本号地址
+
+
 
 #define _SERVER_PORT 20123//网关通讯端口号
 #define _APP_NAME @"贵州东冠智慧小区App"
